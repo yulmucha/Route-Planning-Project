@@ -27,6 +27,25 @@ static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
     return std::move(contents);
 }
 
+float ReadInput(const std::string prompt)
+{
+    float input;
+    bool isValid = false;
+    while (!isValid)
+    {
+        std::cout << prompt;
+        std::cin >> input;
+        if (input < 0 || input > 100)
+        {
+            std::cout << "INVALID INPUT!" << std::endl;
+        }
+        else
+        {
+            isValid = true;
+        }
+    }
+}
+
 int main(int argc, const char **argv)
 {    
     std::string osm_data_file = "";
@@ -51,12 +70,11 @@ int main(int argc, const char **argv)
         else
             osm_data = std::move(*data);
     }
-    
-    float start_x;
-    float start_y;
-    float end_x;
-    float end_y;
-    std::cin >> start_x >> start_y >> end_x >> end_y;
+
+    float start_x = ReadInput("start_x: ");
+    float start_y = ReadInput("start_y: ");
+    float end_x = ReadInput("end_x: ");
+    float end_y = ReadInput("end_y: ");
 
     // Build Model.
     RouteModel model{osm_data};
